@@ -1,0 +1,22 @@
+name: Semgrep
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  semgrep:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: auto    # or try: p/secrets p/owasp-top-ten
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
